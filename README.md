@@ -8,25 +8,29 @@ This can be done either by customizing the sdk itself or importing the library i
 
 1) Download the aosp repo
 
-2) source build/envsetup.sh
+2) $source build/envsetup.sh
 
-3) lunch [your-build-variant]
+3) $lunch [your-build-variant]
   
-4) make sdk
+4) $make sdk
 
-5) Go to /aosp_root/out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/ and copy classes-header.jar file
+5) After <b>$make sdk</b>, the sdk wil be generated at <b>/root_aosp/out/host/linux-x86/sdk/</b> on Linux and <b>/root_aosp/out/host/darwin-x86/sdk/</b> on Mac OS
 
-6) Copy your SDK's android.jar file under /Sdk/platforms/android-[xx]/ and copy android.jar file
+6) If you want build SDK for Windows OS, then run <b>$make win_sdk</b> instead of <b>$make sdk</b>
+
+7) Go to /aosp_root/out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/ and copy classes-header.jar file
+
+8) Copy your SDK's android.jar file under /Sdk/platforms/android-[xx]/ and copy android.jar file
   
-7) Create a new folder and extract android.jar contents.
+9) Create a new folder and extract android.jar contents.
 
-8) Extract classes-header.jar on the same new folder where we extracted android.jar file. Replace all the files if the file name already exists.
+10) Extract classes-header.jar on the same new folder where we extracted android.jar file. Replace all the files if the file name already exists.
 
-9) Make a new android.jar file by <b>"/new_folder$jar cfM ../android.jar ."</b> inside the new folder.
+11) Make a new android.jar file by <b>"/new_folder$jar cfM ../android.jar ."</b> inside the new folder.
 
-10) The above command will generate a new android.jar file outside the new folder.
+12) The above command will generate a new android.jar file outside the new folder.
 
-11) Copy the generated android.jar file and replace it in your SDK directory /Sdk/platforms/android-[xx]/
+13) Copy the generated android.jar file and replace it in your SDK directory /Sdk/platforms/android-[xx]/
 
 ## II. Importing the library into Android Studio
 
@@ -48,6 +52,10 @@ This can be done either by customizing the sdk itself or importing the library i
 <img src="https://github.com/svignesh93/Android-CustomSDK/blob/master/assets/module_project_build_gradle.png" alt="Project Build Gradle"/>
 </div>
 
+## III. AOSP Prebuilt SDK
+
+1) Prebuilt SDK in AOSP can be found at <b>/aosp_root/prebuilts/sdk/current/system/android.jar</b>. But Access to Hidden APIs and Framwork AIDL services were limited.
+
 ## References
 
 1) [Building Custom SDK](https://kwagjj.wordpress.com/2017/10/27/building-custom-android-sdk-from-aosp-and-adding-it-to-android-studio/)
@@ -58,7 +66,9 @@ This can be done either by customizing the sdk itself or importing the library i
 
 4) [Restrictions on Non-SDK interfaces](https://developer.android.com/distribute/best-practices/develop/restrictions-non-sdk-interfaces)
 
-5) [Carbon - Creates images for your source code](https://carbon.now.sh/)
+5) [Embedded Android by Karim Yaghmour](https://www.oreilly.com/library/view/embedded-android/9781449327958/ch04.html)
+
+6) [Carbon - Creates images for your source code](https://carbon.now.sh/)
 
 ## License
 
