@@ -16,7 +16,7 @@ This can be done either by customizing the sdk itself or importing the library i
 
 5) After <b>$make sdk</b>, the sdk wil be generated at <b>/root_aosp/out/host/linux-x86/sdk/</b> on Linux and <b>/root_aosp/out/host/darwin-x86/sdk/</b> on Mac OS
 
-6) If you want build SDK for Windows OS, then run <b>$make win_sdk</b> instead of <b>$make sdk</b>
+6) If you want build SDK for Windows OS, then run <b>$make win_sdk</b> instead of <b>$make sdk</b>. The generated sdk will be at <b>/root_aosp/out/host/windows-x86/sdk/</b>
 
 7) Go to /aosp_root/out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/ and copy classes-header.jar file
 
@@ -54,7 +54,7 @@ This can be done either by customizing the sdk itself or importing the library i
 
 ## III. AOSP Prebuilt SDK
 
-1) Prebuilt SDK in AOSP can be found at <b>/aosp_root/prebuilts/sdk/current/system/android.jar</b>. But Access to Hidden APIs and Framwork AIDL services were limited.
+1) Prebuilt SDK in AOSP can be found at <b>/aosp_root/prebuilts/sdk/current/system/android.jar</b>. But access to Hidden APIs and Framework AIDL services were limited.
 
 ## References
 
