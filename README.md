@@ -58,9 +58,9 @@ This can be done either by customizing the sdk itself or importing the library i
 
 ## References
 
-1) [Building Custom SDK](https://kwagjj.wordpress.com/2017/10/27/building-custom-android-sdk-from-aosp-and-adding-it-to-android-studio/)
+1) [Building Custom SDK by kwagjj](https://kwagjj.wordpress.com/2017/10/27/building-custom-android-sdk-from-aosp-and-adding-it-to-android-studio/)
 
-2) [Importing Framework Library into Android Studio](https://kwagjj.wordpress.com/2017/08/10/using-framework-jar-in-android-studio/)
+2) [Importing Framework Library into Android Studio by kwagjj](https://kwagjj.wordpress.com/2017/08/10/using-framework-jar-in-android-studio/)
 
 3) [Building JAR File](https://www.codejava.net/java-core/tools/using-jar-command-examples)
 
