@@ -10,7 +10,7 @@ This can be done either by customizing the sdk itself or importing the library i
 
 2) $source build/envsetup.sh
 
-3) $lunch [your-build-variant]
+3) $lunch sdk-eng
   
 4) $make sdk
 
