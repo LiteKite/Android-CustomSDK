@@ -130,19 +130,65 @@ This can be done either by customizing the sdk itself or importing the library i
 
 17) Then go to Android Studio > Tools > AVD Manager > and create a new virtual device with your custom emulator system image.
 
+## VI. Error Handling when building SDK / Emulator
+
+1) The Product Variants <b>sdk_phone_x86_64</b>, <b>aosp_x86_64</b> is in <b>/aosp_root/build/target/product/</b> directory.
+
+2) The Product Variant <b>aosp_car_x86_64</b> is in <b>/aosp_root/device/generic/car/</b> directory.
+
+3) Building <b>sdk_phone_x86_64</b> for phone variant will not produce any error and will produce SDK and Emulator System Image without any problem.
+
+4) But for building <b>aosp_car_x86_64</b> for Car will produce some development tools missing errors.
+
+5) The cause of the error for the Car variant <b>aosp_car_x86_64</b> is that it does not include host tools and libs unlike <b>sdk_phone_x86_64</b> has host and tools defined.
+
+    Copy the host tools and libs from <b>sdk_phone_x86_64</b> to <b>aosp_car_x86_64</b>
+  
+    <b># Define the host tools and libs that are parts of the SDK</b><br>
+    -include sdk/build/product_sdk.mk<br>
+    -include development/build/product_sdk.mk
+    
+6) <b>Step 5 was not even tried before and it is still a suggestion only</b>.
+
+7) <b>The errors that I experienced are</b>:
+
+    deployagent.jar was not found in <b>/aosp_root/out/target/product/[your-build-variant]/system/framework/</b> directory.
+    
+    deployagent was not found in <b>/aosp_root/out/target/product/[your-build-variant]/system/bin/</b> directory.
+    
+    These errors are produced by <b>/aosp_root/development/build/sdk.atree</b>.
+    
+8) To solve this problem, first build for <b>aosp_car_x86_64-userdebug</b>, then build <b>aosp_car_x86</b> variant and then build <b>aosp_car_x86_64</b>.
+
+9) After all, copy <b>deployagent.jar</b> from <b>/aosp_root/out/target/product/aosp_car_x86/system/framework/</b> and <b>deployagent</b> from <b>/aosp_root/out/target/product/aosp_car_x86/system/bin/</b> to <b>/aosp_root/out/target/product/aosp_car_x86_64/system/framework/</b> and <b>/aosp_root/out/target/product/aosp_car_x86_64/system/bin/</b>
+
+10) Then try <b>$make sdk sdk_repo</b> again and sdk and emulator system images will be produced.
+
+11) The whole idea is to solve the error is, copy all the missing packaging development tools from other product variants from <b>aosp_root/out/target/product/[other-build-variant]/</b> to your <b>aosp_root/out/target/product/[your-build-variant]/</b>
+
 ## References
 
 1) <b>Building Custom SDK by kwagjj ></b> https://kwagjj.wordpress.com/2017/10/27/building-custom-android-sdk-from-aosp-and-adding-it-to-android-studio/
 
-2) <b>Importing Framework Library into Android Studio by kwagjj ></b> https://kwagjj.wordpress.com/2017/08/10/using-framework-jar-in-android-studio/
+2) <b>Standalone SDK ></b> https://grapheneos.org/build#standalone-sdk
 
-3) <b>Building JAR File ></b> https://www.codejava.net/java-core/tools/using-jar-command-examples
+3) <b>Importing Framework Library into Android Studio by kwagjj ></b> https://kwagjj.wordpress.com/2017/08/10/using-framework-jar-in-android-studio/
 
-4) <b>Restrictions on Non-SDK interfaces ></b> https://developer.android.com/distribute/best-practices/develop/restrictions-non-sdk-interfaces
+4) <b>Building JAR File ></b> https://www.codejava.net/java-core/tools/using-jar-command-examples
 
-5) <b>Embedded Android by Karim Yaghmour ></b> https://www.oreilly.com/library/view/embedded-android/9781449327958/ch04.html
+5) <b>Restrictions on Non-SDK interfaces ></b> https://developer.android.com/distribute/best-practices/develop/restrictions-non-sdk-interfaces
 
-6) <b>Carbon - Creates images for your source code ></b> https://carbon.now.sh/
+6) <b>Embedded Android by Karim Yaghmour ></b> https://www.oreilly.com/library/view/embedded-android/9781449327958/ch04.html
+
+7) <b>Building and Sharing AVD ></b> https://source.android.com/setup/create/avd
+
+8) <b>Building Android Car Emulator ></b> https://www.embien.com/blog/building-android-car-emulator/ 
+
+9) <b>Creating Acloud Instance ></b> https://source.android.com/setup/start
+
+10) <b>Cuttlefish Virtual Android Devices ></b> https://source.android.com/setup/create/cuttlefish
+
+11) <b>Carbon - Creates images for your source code ></b> https://carbon.now.sh/
 
 ## License
 
