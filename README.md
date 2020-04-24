@@ -10,27 +10,29 @@ This can be done either by customizing the sdk itself or importing the library i
 
 2) $source build/envsetup.sh
 
-3) $lunch sdk-eng
+3) $lunch [your-build-variant]
+
+4) <b>[your-build-variant]</b> could be <b>sdk_phone_x86_64</b>, <b>sdk_phone_x86</b>, <b>sdk-eng</b> if you're building for <b>phone/generic</b> build and it could be <b>aosp_car_x86_64</b>, <b>aosp_car_x86</b> if you're building for generic car. Always prefer to use <b>x86_64 bit</b> variant.
+
+5) $make sdk
+
+6) After <b>$make sdk</b>, the sdk wil be generated at <b>/root_aosp/out/host/linux-x86/sdk/</b> on Linux and <b>/root_aosp/out/host/darwin-x86/sdk/</b> on Mac OS
+
+7) If you want build SDK for Windows OS, then run <b>$make win_sdk</b> instead of <b>$make sdk</b>. The generated sdk will be at <b>/root_aosp/out/host/windows-x86/sdk/</b>
+
+8) Go to /aosp_root/out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/ and copy classes-header.jar file
+
+9) Copy your SDK's android.jar file under /Sdk/platforms/android-[xx]/ and copy android.jar file
   
-4) $make sdk
+10) Create a new folder and extract android.jar contents.
 
-5) After <b>$make sdk</b>, the sdk wil be generated at <b>/root_aosp/out/host/linux-x86/sdk/</b> on Linux and <b>/root_aosp/out/host/darwin-x86/sdk/</b> on Mac OS
+11) Extract classes-header.jar on the same new folder where we extracted android.jar file. Replace all the files if the file name already exists.
 
-6) If you want build SDK for Windows OS, then run <b>$make win_sdk</b> instead of <b>$make sdk</b>. The generated sdk will be at <b>/root_aosp/out/host/windows-x86/sdk/</b>
+12) Make a new android.jar file by <b>"/new_folder$jar cfM ../android.jar ."</b> inside the new folder.
 
-7) Go to /aosp_root/out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/ and copy classes-header.jar file
+13) The above command will generate a new android.jar file outside the new folder.
 
-8) Copy your SDK's android.jar file under /Sdk/platforms/android-[xx]/ and copy android.jar file
-  
-9) Create a new folder and extract android.jar contents.
-
-10) Extract classes-header.jar on the same new folder where we extracted android.jar file. Replace all the files if the file name already exists.
-
-11) Make a new android.jar file by <b>"/new_folder$jar cfM ../android.jar ."</b> inside the new folder.
-
-12) The above command will generate a new android.jar file outside the new folder.
-
-13) Copy the generated android.jar file and replace it in your SDK directory /Sdk/platforms/android-[xx]/
+14) Copy the generated android.jar file and replace it in your SDK directory /Sdk/platforms/android-[xx]/
 
 ## II. Importing the library into Android Studio
 
@@ -56,19 +58,91 @@ This can be done either by customizing the sdk itself or importing the library i
 
 1) Prebuilt SDK in AOSP can be found at <b>/aosp_root/prebuilts/sdk/current/system/android.jar</b>. But access to Hidden APIs and Framework AIDL services were limited.
 
+## IV. Building Custom Emulator
+
+1) Download the aosp repo
+
+2) $source build/envsetup.sh
+
+3) $lunch [your-build-variant]
+
+4) <b>[your-build-variant]</b> could be <b>sdk_phone_x86_64</b>, <b>sdk_phone_x86</b> if you're building for <b>phone/generic</b> build and it could be <b>aosp_car_x86_64</b>, <b>aosp_car_x86</b> if you're building for generic car. Always prefer to use <b>x86_64 bit</b> variant.
+
+5) $make -j16
+
+6) $emulator
+
+7) Your emulator will be launched automatically from <b>/aosp_root/prebuilts/android-emulator/linux-x86_64/</b> if you are building on <b>Linux</b> and <b>/aosp_root/prebuilts/android-emulator/darwin-x86_64/</b> if you are building on <b>Mac OS</b> based on the system images generated on <b>/aosp_root/out/target/product/[your-build-variant]</b>
+
+## V. Packaging and sharing Custom Emulator
+
+1) Download the aosp repo
+
+2) $source build/envsetup.sh
+
+3) $lunch [your-build-variant]
+
+4) <b>[your-build-variant]</b> could be <b>sdk_phone_x86_64</b>, <b>sdk_phone_x86</b> if you're building for <b>phone/generic</b> build and it could be <b>aosp_car_x86_64</b>, <b>aosp_car_x86</b> if you're building for generic car. Always prefer to use <b>x86_64 bit</b> variant.
+
+5) $make -j16 sdk sdk_repo
+
+6) This will generate two files under <b>/aosp-root/out/host/linux-x86/sdk/[your-build-variant]/</b> or in <b>/aosp-root/out/host/darwin-x86/sdk/[your-build-variant]/</b> if you are building on <b>Mac OS</b>
+
+    <b>sdk-repo-linux-system-images-eng.[username].zip</b>
+  
+    <b>repo-sys-img.xml</b>
+  
+7) <b>sdk-repo-linux-system-images-eng.[username].zip</b> is the actual emulator system image that you normally see in <b>/Sdk/system-images/</b> in an unzipped format.
+
+8) If you want to share this emulator among many developers, then host the both files <b>repo-sys-img.xml</b> and <b>sdk-repo-linux-system-images-eng.[username].zip</b> in an online environment. 
+
+9) Make sure that you change the <b>URL</b> in <b>repo-sys-img.xml</b> of <b>sdk-repo-linux-system-images-eng.[username].zip</b> hosted file.
+
+10) After hosting the file, Go to Android Studio > Tools > SDK Manager > SDK Update Sites > Tap Add Button and provide name and <b>URL</b> of <b>repo-sys-img.xml</b> hosted file and then, tap ok.
+
+11) This adds your custom emulator system image to the System Images page of the SDK <b>(/Sdk/system-images/)</b>.
+
+12) Then go to Android Studio > Tools > AVD Manager > and create a new virtual device with your custom emulator system image.
+
+13) If you want to use the custom emulator locally, then just unzip the file <b>sdk-repo-linux-system-images-eng.[username].zip</b> in <b>/Sdk/system-images/</b> directory and should be in the below folder structure.
+
+14) The folder structure for the system images in <b>/Sdk/system-images/</b> should be,
+
+    <b>android-[xx]/[TagId]/x86_64/</b> - this is for x86_64 version
+    
+    <b>android-[xx]/[tagId]/x86/</b> - this is for x86 version
+    
+      <b>[xx]</b> is the android API level (ex. 29)
+      
+      <b>[TagId]</b> is the emulator variant. It could be <b>android-automotive</b> if you are building for <b>Car</b> and could be <b>default</b> if you are building for others.
+      
+15) And then, edit <b>source.properties</b> and <b>package.xml</b>:
+
+    <b>Abi</b> - should be x86_64 or x86
+    
+    <b>TagId</b> - is the emulator variant. It could be <b>android-automotive</b> if you are building for <b>Car</b> and could be <b>default</b> if you are building for others.
+    
+    <b>TagDisplay or display</b> - Give the name as you like. ex) "Android Automotive System Image" for Car Variant.
+    
+    <b>display-name</b> - could be "Intel x86 Atom_64 System Image" for "x86_64" or "Intel x86 Atom System Image" for "x86"
+    
+16) If you can't find <b>package.xml</b> and was not auto-generating then just copy it from other emulator system images from your SDK.
+
+17) Then go to Android Studio > Tools > AVD Manager > and create a new virtual device with your custom emulator system image.
+
 ## References
 
-1) [Building Custom SDK by kwagjj](https://kwagjj.wordpress.com/2017/10/27/building-custom-android-sdk-from-aosp-and-adding-it-to-android-studio/)
+1) <b>Building Custom SDK by kwagjj ></b> https://kwagjj.wordpress.com/2017/10/27/building-custom-android-sdk-from-aosp-and-adding-it-to-android-studio/
 
-2) [Importing Framework Library into Android Studio by kwagjj](https://kwagjj.wordpress.com/2017/08/10/using-framework-jar-in-android-studio/)
+2) <b>Importing Framework Library into Android Studio by kwagjj ></b> https://kwagjj.wordpress.com/2017/08/10/using-framework-jar-in-android-studio/
 
-3) [Building JAR File](https://www.codejava.net/java-core/tools/using-jar-command-examples)
+3) <b>Building JAR File ></b> https://www.codejava.net/java-core/tools/using-jar-command-examples
 
-4) [Restrictions on Non-SDK interfaces](https://developer.android.com/distribute/best-practices/develop/restrictions-non-sdk-interfaces)
+4) <b>Restrictions on Non-SDK interfaces ></b> https://developer.android.com/distribute/best-practices/develop/restrictions-non-sdk-interfaces
 
-5) [Embedded Android by Karim Yaghmour](https://www.oreilly.com/library/view/embedded-android/9781449327958/ch04.html)
+5) <b>Embedded Android by Karim Yaghmour ></b> https://www.oreilly.com/library/view/embedded-android/9781449327958/ch04.html
 
-6) [Carbon - Creates images for your source code](https://carbon.now.sh/)
+6) <b>Carbon - Creates images for your source code ></b> https://carbon.now.sh/
 
 ## License
 
