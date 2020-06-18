@@ -166,6 +166,47 @@ This can be done either by customizing the sdk itself or importing the library i
 
 11) The whole idea is to solve the error is, copy all the missing packaging development tools from other product variants from <b>aosp_root/out/target/product/[other-build-variant]/</b> to your <b>aosp_root/out/target/product/[your-build-variant]/</b>
 
+## VII. Preparing Writable Emulator
+
+1) After building custom emulator from above steps, create a new <b>Android Virtual Device (AVD)</b> from AVD Manager, Android Studio.
+
+2) Try remounting the emulator by:
+
+        $ adb root
+  
+        $ adb disable-verity
+  
+        $ adb reboot
+  
+        $ adb root
+  
+        $ adb remount
+  
+3) If the remount was unsuccessful, then try launching emulator as a writable system.
+
+    i) List the available AVDs:
+  
+        Sdk/emulator$ ./emulator -list-avds
+  
+        [avd-name-1]
+        [avd-name-2]
+  
+    ii) Launch the writable emulator system:
+  
+        Sdk/emulator$ ./emulator -writable-system -avd [any-avd-name]
+  
+    iii) Try remounting the emulator:
+  
+        $ adb root
+  
+        $ adb remount
+  
+4) With the remounted (or) writable emulator system, you can directly push your system applications into system.
+
+        $ adb push [app-name].apk /system/product/priv-app/[app-name]/
+  
+        $ adb reboot
+
 ## References
 
 1) <b>Building Custom SDK by kwagjj ></b> https://kwagjj.wordpress.com/2017/10/27/building-custom-android-sdk-from-aosp-and-adding-it-to-android-studio/
