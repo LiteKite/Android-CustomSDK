@@ -45,13 +45,13 @@ This can be done either by customizing the sdk itself or importing the library i
 4) Configure your project's [build.gradle] file with the below lines of code for java compilation.
 
 <div align="center">
-<img src="https://github.com/svignesh93/Android-CustomSDK/blob/master/assets/root_project_build_gradle.png" alt="Project Build Gradle"/>
+<img src="https://github.com/svignesh93/Android-CustomSDK/blob/main/assets/root_project_build_gradle.png" alt="Project Build Gradle"/>
 </div>
 
 5) Configure your module's [build.gradle] file with the below code that brings the framework.jar file as a top library and moves SDK to the last. So that it points to framework.jar APIs instead of SDK.
 
 <div align="center">
-<img src="https://github.com/svignesh93/Android-CustomSDK/blob/master/assets/module_project_build_gradle.png" alt="Project Build Gradle"/>
+<img src="https://github.com/svignesh93/Android-CustomSDK/blob/main/assets/module_project_build_gradle.png" alt="Project Build Gradle"/>
 </div>
 
 ## III. AOSP Prebuilt SDK
