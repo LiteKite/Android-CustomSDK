@@ -206,6 +206,32 @@ This can be done either by customizing the sdk itself or importing the library i
         $ adb push [app-name].apk /system/product/priv-app/[app-name]/
   
         $ adb reboot
+        
+## VIII. Signing KeyStore
+
+1) Signing the keystore (.jks) with the android platform certificates requires the certificate (platform.pem) and the key (platform.x509.pk8) that can be found in the below path of AOSP
+
+        aosp_root/build/target/product/security/
+        
+2) Generate a new or use the existing keystore file from Android Studio.
+
+3) Download the shell script `keytool-importkeypair` from https://github.com/getfatday/keytool-importkeypair
+
+4) Run the script. It will import the key/certificate pair with the keystore file. Then you can directly use keystore file to sign the apk with platform certificate.
+
+        $ keytool-importkeypair -k platform.keystore -p platform -pk8 platform.pk8 -cert platform.x509.pem -alias platform
+
+## IX. Allowing Privileged App Permission
+
+1) Permissions for all the system privileged apps can be found in:
+
+        aosp_root/frameworks/base/etc/permissions
+        
+2) Push your permission file [package_name].xml to the below directory:
+
+        $ adb push [package_name].xml /system/product/etc/permissions/
+        
+3) On Android 10 and above, the device won't boot without these permissions.
 
 ## References
 
@@ -229,9 +255,15 @@ This can be done either by customizing the sdk itself or importing the library i
 
 10) <b>Cuttlefish Virtual Android Devices ></b> https://source.android.com/setup/create/cuttlefish
 
-11) <b>Run apps on the Android Emulator ></b> https://developer.android.com/studio/run/emulator</b>
+11) <b>Run apps on the Android Emulator ></b> https://developer.android.com/studio/run/emulator
 
-12) <b>Carbon - Creates images for your source code ></b> https://carbon.now.sh/
+12) <b>Signing build for release ></b> https://source.android.com/devices/tech/ota/sign_builds
+
+13) <b>Signing your app ></b> https://developer.android.com/studio/publish/app-signing
+
+14) <b>Allowing Priv-app Permissions ></b> https://source.android.com/devices/tech/config/perms-whitelist
+
+15) <b>Carbon - Creates images for your source code ></b> https://carbon.now.sh/
 
 ## License
 
